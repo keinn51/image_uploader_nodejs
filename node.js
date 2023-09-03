@@ -1,8 +1,11 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
+
 const multer = require("multer");
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+        cb(null, "public/0/board"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
@@ -10,7 +13,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const cors = require("cors");
-const path = require("path");
 
 const app = express();
 
@@ -26,5 +28,6 @@ app.post("/upload", upload.single("userfile"), function (req, res) {
 });
 
 app.use(cors());
+app.use("/uploads/0/board", express.static("public/0/board"));
 
 app.listen(3500, () => console.log(`Server started on port ${3500}`));
