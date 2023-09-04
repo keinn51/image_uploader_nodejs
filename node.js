@@ -41,7 +41,7 @@ app.post("/upload", upload.single("userfile"), (req, res) => {
     try {
         const { project, folder } = req.query;
         // 파일이 저장된 경로를 클라이언트에게 반환해준다.
-        const IMG_URL = `http://localhost:3500/${project}/${folder}/${req.file.filename}`;
+        const IMG_URL = `http://localhost:7001/${project}/${folder}/${req.file.filename}`;
         console.log("new image url", IMG_URL);
         res.json({ url: IMG_URL });
     } catch {
@@ -54,4 +54,4 @@ app.use(express.json()); // json 데이터 파서
 app.use(express.urlencoded({ extended: false })); // 내부 url 파서 사용
 app.use(express.static(path.join(__dirname + "/public"))); // 정적 파일 위치 설정
 
-app.listen(3500, () => console.log(`Server started on port ${3500}`));
+app.listen(7001, () => console.log(`Server started on port ${7001}`));
