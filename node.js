@@ -8,7 +8,12 @@ const upload = multer({
     storage: multer.diskStorage({
         // 저장할 장소
         destination(req, file, cb) {
-            cb(null, "public/0/board");
+            try {
+                const { project, folder } = req.query;
+                cb(null, `public/${project}/${folder}`);
+            } catch {
+                return;
+            }
         },
         // 저장할 이미지의 파일명
         filename(req, file, cb) {
@@ -26,12 +31,6 @@ const app = express();
 
 app.use(cors()); // 우선 cors 무조곤 허용
 
-const publicDirectoryPath = path.join(__dirname, "");
-
-app.get("/", (req, res) => {
-    res.sendFile("index.html", { root: publicDirectoryPath });
-});
-
 // 하나의 이미지 파일만 가져온다.
 app.post("/upload", upload.single("userfile"), (req, res) => {
     // 해당 라우터가 정상적으로 작동하면 public/uploads에 이미지가 업로드된다.
@@ -39,10 +38,15 @@ app.post("/upload", upload.single("userfile"), (req, res) => {
     console.log("전달받은 파일", req.file);
     console.log("저장된 파일의 이름", req.file.filename);
 
-    // 파일이 저장된 경로를 클라이언트에게 반환해준다.
-    const IMG_URL = `http://localhost:3500/0/board/${req.file.filename}`;
-    console.log("new image url", IMG_URL);
-    res.json({ url: IMG_URL });
+    try {
+        const { project, folder } = req.query;
+        // 파일이 저장된 경로를 클라이언트에게 반환해준다.
+        const IMG_URL = `http://localhost:3500/${project}/${folder}/${req.file.filename}`;
+        console.log("new image url", IMG_URL);
+        res.json({ url: IMG_URL });
+    } catch {
+        throw new Error("파일 저장 실패");
+    }
 });
 
 // 미들웨어 사용
