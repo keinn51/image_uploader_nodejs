@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const port = process.env.HOST_PORT;
+const url = process.env.HOST_URL;
 
 const multer = require("multer");
 // multer 설정
@@ -45,7 +46,7 @@ app.post("/upload", upload.single("userfile"), (req, res) => {
   try {
     const { project, folder } = req.query;
     // 파일이 저장된 경로를 클라이언트에게 반환해준다.
-    const IMG_URL = `http://localhost:${port}/${project}/${folder}/${req.file.filename}`;
+    const IMG_URL = `http://${url}:${port}/${project}/${folder}/${req.file.filename}`;
     console.log("new image url", IMG_URL);
     res.json({ url: IMG_URL });
   } catch {
