@@ -1,7 +1,10 @@
 ## 블로그 이미지 업로드 서버
 
-시연영상
-https://youtu.be/PC7rBfvsbHY
+시연영상 : https://youtu.be/PC7rBfvsbHY
+
+서버코드 : https://github.com/toy-project-kyungsle/my-blog-server
+
+클라이언트 코드 : https://github.com/toy-project-kyungsle/my-blog-client
 
 ### 소개
 
